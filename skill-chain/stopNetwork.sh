@@ -6,5 +6,5 @@ pushd ../test-network
 popd
 
 
-rm -rf wapoka-login-server/wallet/
+rm -rf skill-chain-server/wallet/
 # rm -rf application-go/keystore/

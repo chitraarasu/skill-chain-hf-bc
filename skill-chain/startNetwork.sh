@@ -13,7 +13,7 @@ pushd ../test-network
 echo "Bring up network"
 ./network.sh up createChannel -s couchdb -ca
 echo "Deploying Chaincode"
-./network.sh deployCC -ccn basic -ccp ../wapoka-community-app/wapoka-chaincode -ccl javascript
+./network.sh deployCC -ccn basic -ccp ../skill-chain/skill-chain-chaincode -ccl javascript
 echo "Deploying Chaincode Completed"
 
 
