@@ -1,0 +1,28 @@
+[
+    // {
+    //     "invoke": "InitLedger"
+    // },
+    { 
+        "invoke": "AddDummyUsers",
+        "args": [10]
+    },
+    {
+        "query": "GetAllUsers"
+    },
+    {
+        "invoke": "CreateUser",
+        "args": ["test user 1","test address", "image_url","1234567892","test8@gmail.com", "uid", false, 123456, "2023-11-09T10:37:26.031Z"]
+    },
+    {
+        "query": "ValidateUser",
+        "args": ["uid", "123456"]
+    },
+    {
+        "query": "GetUserById",
+        "args": ["uid"]
+    },
+    {
+        "invoke": "AddSkill",
+        "args": ["uid", "7", "skill_doc", "institute_id"]
+    }
+]
