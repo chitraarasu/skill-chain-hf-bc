@@ -112,8 +112,8 @@ app.post("/signup", async function (req, res) {
     );
 
     let jsonResult = JSON.parse(prettyJSONString(result));
+
     let token = generateAccessToken({
-      id: jsonResult.id,
       public_id: jsonResult.public_id,
       email: jsonResult.email_id,
     });
@@ -134,25 +134,32 @@ app.post("/login", async function (req, res) {
   var body = req.body;
 
   try {
-    let result = await _contract.submitTransaction(
+    let result = await _contract.evaluateTransaction(
       "ValidateUser",
       body.public_id,
       body.password
     );
 
     let jsonResult = JSON.parse(prettyJSONString(result));
-    let token = generateAccessToken({
-      id: jsonResult.id,
-      public_id: jsonResult.public_id,
-      email: jsonResult.email_id,
-    });
-    return res.json({
-      status: true,
-      message: "Login Successfull",
-      data: {
-        token: token,
-      },
-    });
+    if (jsonResult.length == 0) {
+      return res.json({
+        status: false,
+        message: "Invalid User Credentials!",
+        data: null,
+      });
+    } else {
+      let token = generateAccessToken({
+        public_id: jsonResult[0].Record.public_id,
+        email: jsonResult[0].Record.email_id,
+      });
+      return res.json({
+        status: true,
+        message: "Login Successfull",
+        data: {
+          token: token,
+        },
+      });
+    }
   } catch (e) {
     return getError(e, res);
   }
@@ -162,7 +169,7 @@ app.post("/login", async function (req, res) {
   //   .json({ status: false, message: "Username already taken!", data: null });
 });
 
-app.get("/user_from_public_id", async function (req, res) {
+app.post("/user_from_public_id", async function (req, res) {
   var body = req.body;
   try {
     let result = await _contract.evaluateTransaction("GetAllUsers");
@@ -212,6 +219,24 @@ app.post("/add_skill", async function (req, res) {
       status: true,
       message: "Add Skill Response",
       data: responseData,
+    });
+  } catch (e) {
+    return getError(e, res);
+  }
+});
+
+app.get("/profile", authenticateToken, async function (req, res) {
+  try {
+    let result = await _contract.evaluateTransaction(
+      "GetUserById",
+      req.user.public_id
+    );
+    var json = JSON.parse(prettyJSONString(result));
+    var jsonWithOutPassword = lodash.omit(json, "password");
+    return res.json({
+      status: true,
+      message: "",
+      data: jsonWithOutPassword,
     });
   } catch (e) {
     return getError(e, res);
