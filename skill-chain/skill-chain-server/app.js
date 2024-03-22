@@ -211,6 +211,7 @@ app.post("/add_skill", async function (req, res) {
           console.log(json);
           responseData.push(true);
         } catch (e) {
+          console.log(e);
           responseData.push(false);
         }
       })
@@ -222,6 +223,27 @@ app.post("/add_skill", async function (req, res) {
       data: responseData,
     });
   } catch (e) {
+    return getError(e, res);
+  }
+});
+
+app.post("/update_profile", authenticateToken, async function (req, res) {
+  var body = req.body;
+  try {
+    let result = await _contract.submitTransaction(
+      "ChangeProfile",
+      req.user.public_id,
+      body.image_url
+    );
+    var json = JSON.parse(prettyJSONString(result));
+    console.log(json);
+    return res.json({
+      status: true,
+      message: "Profile Updated",
+      data: json,
+    });
+  } catch (e) {
+    console.log(e);
     return getError(e, res);
   }
 });
