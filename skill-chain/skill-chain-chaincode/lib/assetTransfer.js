@@ -92,6 +92,20 @@ class AssetTransfer extends Contract {
     return exists;
   }
 
+  async ChangeProfile(ctx, userId, profileUrl) {
+    const exists = await this.GetUserById(ctx, userId);
+
+    if (exists == null) {
+      throw new Error(`User not found!`);
+    }
+    exists.imageUrl = profileUrl;
+    await ctx.stub.putState(
+      userId,
+      Buffer.from(stringify(sortKeysRecursive(exists)))
+    );
+    return exists;
+  }
+
   // // DeleteAsset deletes an given asset from the world state.
   // async DeleteAsset(ctx, id) {
   //     const exists = await this.CheckUserExistById(ctx, id);

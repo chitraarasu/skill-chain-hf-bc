@@ -208,6 +208,7 @@ app.post("/add_skill", async function (req, res) {
             element.institute_id
           );
           var json = JSON.parse(prettyJSONString(result));
+          console.log(json);
           responseData.push(true);
         } catch (e) {
           responseData.push(false);

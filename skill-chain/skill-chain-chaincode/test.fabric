@@ -33,6 +33,15 @@
   },
   {
     "invoke": "AddSkill",
-    "args": ["uid", "7", "skill_doc", "institute_id"]
+    "args": [
+      "uid",
+      "ScaM85FZsLFBOtmga8O6",
+      "https://firebasestorage.googleapis.com/v0/b/skill-chain.appspot.com/o/request_certificates%2FFbbBnnHkh7SHgyS4J4yqbjwulTS2-ScaM85FZsLFBOtmga8O6-128901942820.pdf?alt=media&token=c451461a-0786-4912-b67f-c4fd5dd8a04d",
+      "FbbBnnHkh7SHgyS4J4yqbjwulTS2"
+    ]
+  },
+  {
+    "query": "ChangeProfile",
+    "args": ["uid", "123456"]
   }
 ]
